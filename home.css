@@ -152,9 +152,9 @@ body {
     }
 
     .header {
-        -webkit-animation: slide 120s linear infinite;
-        -moz-animation: slide 120s linear infinite;
-        animation: slide 120s linear infinite; 
+        -webkit-animation: slide 150s linear infinite;
+        -moz-animation: slide 150s linear infinite;
+        animation: slide 150s linear infinite; 
     }
 
     .header .logo-container .logo {
