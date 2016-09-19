@@ -1,13 +1,13 @@
 package br.com.imarket;
 
-import org.springframework.composed.web.Get;
-import org.springframework.stereotype.Controller;
+import org.springframework.composed.web.rest.json.GetJson;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
 
-	@Get("/")
+	@GetJson("/")
 	public String index() {
-		return "home/index";
+		return "home";
 	}
 }
