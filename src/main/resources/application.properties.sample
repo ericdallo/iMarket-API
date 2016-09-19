@@ -1,0 +1,13 @@
+env=dev
+
+spring.mvc.view.prefix=/templates/
+spring.mvc.view.suffix=.html
+spring.thymeleaf.cache=false
+spring.thymeleaf.mode=LEGACYHTML5
+
+db.url=jdbc:mysql://localhost:3306/imarket
+db.username=root
+db.password=
+db.driver=com.mysql.jdbc.Driver
+
+hibernate.show_sql=false
