@@ -14,7 +14,7 @@ public class BuyerDTO {
 	private String email;
 
 	@NotEmpty(message = "buyer.login.empty.password")
-	@Length(min = 4, message = "buyer.login.invalid.password")
+	@Length(min = 6, message = "buyer.login.invalid.password")
 	private String password;
 
 	public String getName() {

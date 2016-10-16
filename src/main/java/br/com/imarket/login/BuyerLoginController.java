@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.imarket.buyer.BuyerToBuyerLoginDTOConverter;
 import br.com.imarket.exception.EmailAlreadyInUseException;
 import br.com.imarket.user.Buyer;
 import br.com.imarket.user.BuyerRepository;
@@ -22,6 +23,10 @@ public class BuyerLoginController {
 	
 	@Autowired
 	private BuyerRepository buyerRepository;
+	@Autowired
+	private LoggedBuyer loggedBuyer;
+	@Autowired
+	private BuyerToBuyerLoginDTOConverter loginConverter;
 
 	@GetJson("/api/home")
 	public String indexjson() {
@@ -31,6 +36,11 @@ public class BuyerLoginController {
 	@GetJson("/")
 	public String index() {
 		return "home";
+	}
+	
+	@GetJson("/logged")
+	public BuyerLoginDTO login() {
+		return loginConverter.convert(loggedBuyer.get());
 	}
 	
 	@Post("/register")

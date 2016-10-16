@@ -29,7 +29,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LoginFailureHandler failureLogin;
 	@Autowired
-	private LoginSuccessHandler successLogin;
+	private LoginSuccessHandler successHandler;
 
 	@Override 
 	protected void configure(HttpSecurity http) throws Exception {
@@ -42,7 +42,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .formLogin()
             	.loginPage("/login")
 	            .loginProcessingUrl("/login")
-	            .successHandler(successLogin)
+	            .successHandler(successHandler)
 	            .failureHandler(failureLogin)
 	            .permitAll()
 	            .and()
