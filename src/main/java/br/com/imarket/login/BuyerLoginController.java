@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.imarket.buyer.Buyer;
+import br.com.imarket.buyer.BuyerRepository;
 import br.com.imarket.buyer.BuyerToBuyerLoginDTOConverter;
 import br.com.imarket.exception.EmailAlreadyInUseException;
-import br.com.imarket.user.Buyer;
-import br.com.imarket.user.BuyerRepository;
 
 @RestController
 public class BuyerLoginController {
@@ -45,13 +45,21 @@ public class BuyerLoginController {
 	
 	@Post("/register")
 	@ResponseStatus(CREATED)
-	public void register(@Valid @RequestBody BuyerDTO dto) throws EmailAlreadyInUseException {
+	public void register(@Valid @RequestBody BuyerRegisterDTO dto) throws EmailAlreadyInUseException {
 		Optional<Buyer> foundBuyer = buyerRepository.findByEmail(dto.getEmail());
 		if (foundBuyer.isPresent()) {
+			Buyer buyer = foundBuyer.get();
+			if (buyer.getLoginOrigin().isSocial()) {
+				buyer.setPassword(dto.getPassword());
+				buyer.setEmail(dto.getEmail());
+				buyer.setName(dto.getName());
+				buyerRepository.save(buyer);
+				return;
+			}
 			throw new EmailAlreadyInUseException();
 		}
 		
-		Buyer buyer = new Buyer(dto.getName(), dto.getEmail(), dto.getPassword());
+		Buyer buyer = new Buyer(dto.getName(), dto.getEmail(), dto.getPassword(), dto.getLoginOrigin());
 		buyerRepository.save(buyer);
 	}
 }

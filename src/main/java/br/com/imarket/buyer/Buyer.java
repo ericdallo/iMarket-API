@@ -1,4 +1,4 @@
-package br.com.imarket.user;
+package br.com.imarket.buyer;
 
 import static java.util.Arrays.asList;
 
@@ -6,40 +6,51 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
+import br.com.imarket.login.LoginOrigin;
+
 @Entity
 @Table(name = "buyer")
 public class Buyer implements UserDetails {
 	
-	private static final long serialVersionUID = -8116772869181809928L;
+	private static final long serialVersionUID = 6390327706542774402L;
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	@Column(name = "name")
+	@Column(name = "name", nullable = false, length = 60)
 	private String name;
 	
-	@Column(name = "email")
+	@Email
+	@Column(name = "email", nullable = false)
 	private String email;
 	
-	@Column(name = "password")
+	@Column(name = "password", nullable = false)
 	private String password;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "login_origin", nullable = false)
+	private LoginOrigin loginOrigin;
 
-	public Buyer(String name, String email, String password) {
+	public Buyer(String name, String email, String password, LoginOrigin loginOrigin) {
 		this.name = name;
 		this.password = password;
 		this.email = email;
+		this.loginOrigin = loginOrigin;
 	}
 	
 	@Deprecated
@@ -82,6 +93,14 @@ public class Buyer implements UserDetails {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public LoginOrigin getLoginOrigin() {
+		return loginOrigin;
+	}
+
+	public void setLoginOrigin(LoginOrigin loginOrigin) {
+		this.loginOrigin = loginOrigin;
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -112,5 +131,4 @@ public class Buyer implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-	
 }

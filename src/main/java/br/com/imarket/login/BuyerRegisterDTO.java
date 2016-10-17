@@ -1,10 +1,14 @@
 package br.com.imarket.login;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-public class BuyerDTO {
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class BuyerRegisterDTO {
 
 	@NotEmpty(message = "buyer.login.empty.name")
 	private String name;
@@ -16,6 +20,10 @@ public class BuyerDTO {
 	@NotEmpty(message = "buyer.login.empty.password")
 	@Length(min = 6, message = "buyer.login.invalid.password")
 	private String password;
+	
+	@NotNull(message = "buyer.login.empty.origin")
+	@JsonProperty("login_origin")
+	private LoginOrigin loginOrigin;
 
 	public String getName() {
 		return name;
@@ -39,5 +47,13 @@ public class BuyerDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public LoginOrigin getLoginOrigin() {
+		return loginOrigin;
+	}
+
+	public void setLoginOrigin(LoginOrigin loginOrigin) {
+		this.loginOrigin = loginOrigin;
 	}
 }

@@ -1,4 +1,4 @@
-package br.com.imarket.user;
+package br.com.imarket.buyer;
 
 import java.util.Optional;
 

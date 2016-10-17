@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
-import org.springframework.security.web.authentication.rememberme.AbstractRememberMeServices;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 @Order(2)
@@ -25,11 +25,11 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired 
 	private RememberMeAuthenticationProvider rememberMeAuthenticationProvider;
 	@Autowired
-	private LoggoutRequestMatcher logoutRequestMatcher;
-	@Autowired
 	private LoginFailureHandler failureLogin;
 	@Autowired
 	private LoginSuccessHandler successHandler;
+	@Autowired
+	private LogoutHandler logoutSuccessHandler;
 
 	@Override 
 	protected void configure(HttpSecurity http) throws Exception {
@@ -46,10 +46,11 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	            .failureHandler(failureLogin)
 	            .permitAll()
 	            .and()
-            .logout()                           
-                .logoutUrl("/login")
-                .logoutRequestMatcher(logoutRequestMatcher)
+            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/login", "DELETE"))
+            	.clearAuthentication(true)
                 .deleteCookies(cookieName)
+                .invalidateHttpSession(true)
+                .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
             .exceptionHandling()
             	.authenticationEntryPoint(new Http403ForbiddenEntryPoint())
@@ -69,7 +70,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean   
-	AbstractRememberMeServices rememberMeServices() {
+	TokenBasedRememberMeService rememberMeServices() {
 		TokenBasedRememberMeService service = new TokenBasedRememberMeService(cookieName, userDetailsService);
 		service.setAlwaysRemember(true);
 		service.setCookieName(cookieName);

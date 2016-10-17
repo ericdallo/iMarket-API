@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import br.com.imarket.user.BuyerRepository;
+import br.com.imarket.buyer.BuyerRepository;
 
 @Repository
 public class UserDetailsDAO implements UserDetailsService {

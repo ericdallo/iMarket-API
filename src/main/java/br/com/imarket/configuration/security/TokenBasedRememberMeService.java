@@ -1,7 +1,9 @@
 package br.com.imarket.configuration.security;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
@@ -27,6 +29,12 @@ public class TokenBasedRememberMeService extends TokenBasedRememberMeServices {
 		}
 
 		return token;
+	}
+	
+	@Override
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		cancelCookie(request, response);
+		response.setStatus(HttpServletResponse.SC_OK);
 	}
 	
 }

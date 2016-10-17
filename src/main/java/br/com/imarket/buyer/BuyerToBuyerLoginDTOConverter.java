@@ -4,7 +4,6 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import br.com.imarket.login.BuyerLoginDTO;
-import br.com.imarket.user.Buyer;
 
 @Component
 public class BuyerToBuyerLoginDTOConverter implements Converter<Buyer, BuyerLoginDTO> {
