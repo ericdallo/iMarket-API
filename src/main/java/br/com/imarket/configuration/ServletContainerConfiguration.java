@@ -11,7 +11,7 @@ class ServletContainerConfiguration implements EmbeddedServletContainerCustomize
 
 	@Override
 	public void customize(ConfigurableEmbeddedServletContainer container) {
-		container.setPort(8080);
+		container.setPort(9090);
 		container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/404.html"));
 	}
 }

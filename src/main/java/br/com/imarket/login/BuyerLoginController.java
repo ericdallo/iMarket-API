@@ -45,7 +45,7 @@ public class BuyerLoginController {
 	
 	@Post("/register")
 	@ResponseStatus(CREATED)
-	public void register(@Valid @RequestBody BuyerRegisterDTO dto) throws EmailAlreadyInUseException {
+	public void register(@Valid @RequestBody BuyerRegisterDTO dto) {
 		Optional<Buyer> foundBuyer = buyerRepository.findByEmail(dto.getEmail());
 		if (foundBuyer.isPresent()) {
 			Buyer buyer = foundBuyer.get();
