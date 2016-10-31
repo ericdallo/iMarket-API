@@ -21,22 +21,26 @@ public class PreMarket {
 	private Long id;
 
 	@NotBlank
-	@Column(name = "name")
+	@Column(name = "name", nullable = false)
 	private String name;
 	
 	@CNPJ
-	@Column(name = "cnpj")
+	@Column(name = "cnpj", nullable = false)
 	private String cnpj;
 	
 	@Email
-	@Column(name = "email")
+	@Column(name = "email", nullable = false)
 	private String email;
 	
 	@NotNull
 	@Embedded
 	private MarketAddress address;
 	
+	@Column(name = "has_delivery", nullable = false)
 	private boolean hasDelivery;
+
+	@Column(name = "disapproved_text")
+	private String disapprovedText;
 	
 	public Long getId() {
 		return id;
@@ -86,4 +90,11 @@ public class PreMarket {
 		this.hasDelivery = hasDelivery;
 	}
 
+	public void disapproves(String disapprovedText) {
+		this.disapprovedText = disapprovedText;
+	}
+	
+	public String getDisapprovedText() {
+		return disapprovedText;
+	}
 }

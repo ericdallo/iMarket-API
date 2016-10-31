@@ -1,6 +1,7 @@
 package br.com.imarket.premarket;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.repository.RepositoryDefinition;
 
@@ -10,5 +11,7 @@ public interface PreMarketRepository {
 	void save(PreMarket preMarket);
 
 	List<PreMarket> findAll();
+
+	Optional<PreMarket> findById(Long id);
 	
 }
