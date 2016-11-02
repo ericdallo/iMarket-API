@@ -1,5 +1,7 @@
 package br.com.imarket.configuration.security;
 
+import static org.springframework.http.HttpMethod.OPTIONS;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -34,8 +37,10 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override 
 	protected void configure(HttpSecurity http) throws Exception {
         http
+        	.addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
         	.csrf().disable()
             .authorizeRequests()
+            	.antMatchers(OPTIONS,"/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/premarkets").permitAll()
                 .anyRequest().authenticated()
@@ -58,6 +63,10 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             	.and()
             .rememberMe().rememberMeServices(rememberMeServices());
     }
+
+	private CorsFilter corsFilter() {
+		return new CorsFilter();
+	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

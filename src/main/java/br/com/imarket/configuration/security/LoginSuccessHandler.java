@@ -19,7 +19,7 @@ import br.com.imarket.login.LoggedUser;
 import br.com.imarket.market.MarketToMarketLoginDTOConverter;
 
 @Component
-public class LoginSuccessHandler implements AuthenticationSuccessHandler{
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 	
 	private static final String IS_MOBILE = "is_mobile";
 	
@@ -46,6 +46,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler{
         		httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
         		return;
         	}
+    	} else if (loggedUser.isBuyer()) {
+    		String jsonString = objMapper.writeValueAsString(buyerLoginConverter.convert(loggedUser.getBuyer().get()));
+    		httpServletResponse.getWriter().write(jsonString);
+    		httpServletResponse.getWriter().flush();
+    		httpServletResponse.getWriter().close();
     	} else if (loggedUser.isMarket()) {
     		String jsonString = objMapper.writeValueAsString(marketLoginConverter.convert(loggedUser.getMarket().get()));
     		httpServletResponse.getWriter().write(jsonString);
