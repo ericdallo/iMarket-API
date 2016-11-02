@@ -1,21 +1,19 @@
 package br.com.imarket.login;
 
-import static org.springframework.http.HttpStatus.CREATED;
-
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.composed.web.Post;
 import org.springframework.composed.web.rest.json.GetJson;
+import org.springframework.composed.web.rest.json.PostJson;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.imarket.buyer.Buyer;
 import br.com.imarket.buyer.BuyerRepository;
 import br.com.imarket.buyer.BuyerToBuyerLoginDTOConverter;
+import br.com.imarket.exception.BuyerNotFoundException;
 import br.com.imarket.exception.EmailAlreadyInUseException;
 
 @RestController
@@ -24,15 +22,12 @@ public class BuyerLoginController {
 	@Autowired
 	private BuyerRepository buyerRepository;
 	@Autowired
-	private LoggedBuyer loggedBuyer;
+	private LoggedUser loggedUser;
 	@Autowired
 	private BuyerToBuyerLoginDTOConverter loginConverter;
+	@Autowired
+	private LoginInfoRepository loginInfoRepository;
 
-	@GetJson("/api/home")
-	public String indexjson() {
-		return "homeApi";
-	}
-	
 	@GetJson("/")
 	public String index() {
 		return "home";
@@ -40,26 +35,27 @@ public class BuyerLoginController {
 	
 	@GetJson("/logged")
 	public BuyerLoginDTO login() {
-		return loginConverter.convert(loggedBuyer.get());
+		return loggedUser.getBuyer()
+						.map(buyer -> loginConverter.convert(buyer))
+						.orElseThrow(BuyerNotFoundException::new);
 	}
 	
-	@Post("/register")
-	@ResponseStatus(CREATED)
+	@PostJson("/register")
 	public void register(@Valid @RequestBody BuyerRegisterDTO dto) {
-		Optional<Buyer> foundBuyer = buyerRepository.findByEmail(dto.getEmail());
-		if (foundBuyer.isPresent()) {
-			Buyer buyer = foundBuyer.get();
-			if (buyer.getLoginOrigin().isSocial()) {
-				buyer.setPassword(dto.getPassword());
-				buyer.setEmail(dto.getEmail());
-				buyer.setName(dto.getName());
-				buyerRepository.save(buyer);
+		Optional<LoginInfo> foundLoginInfo = loginInfoRepository.findByEmail(dto.getEmail());
+		if (foundLoginInfo.isPresent()) {
+			LoginInfo loginInfo = foundLoginInfo.get();
+			if (loginInfo.isSocial()) {
+				loginInfo.setEmail(dto.getEmail());
+				loginInfo.setPassword(dto.getPassword());
+				loginInfoRepository.save(loginInfo);
 				return;
 			}
 			throw new EmailAlreadyInUseException();
 		}
 		
-		Buyer buyer = new Buyer(dto.getName(), dto.getEmail(), dto.getPassword(), dto.getLoginOrigin());
+		LoginInfo loginInfo = new LoginInfo(dto.getEmail(), dto.getPassword(), dto.getLoginOrigin(), LoginType.BUYER);
+		Buyer buyer = new Buyer(dto.getName(), loginInfo);
 		buyerRepository.save(buyer);
 	}
 }

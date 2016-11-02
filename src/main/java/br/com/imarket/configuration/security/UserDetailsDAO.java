@@ -6,17 +6,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Repository;
 
-import br.com.imarket.buyer.BuyerRepository;
+import br.com.imarket.login.LoginInfoRepository;
 
 @Repository
 public class UserDetailsDAO implements UserDetailsService {
 	
 	@Autowired
-	private BuyerRepository buyerRepository;
+	private LoginInfoRepository loginInfoRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return buyerRepository.findByEmail(username)
+		return loginInfoRepository.findByEmail(username)
 						.orElseThrow(() -> new UsernameNotFoundException("user not found"));
 	}
 

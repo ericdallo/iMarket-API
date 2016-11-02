@@ -15,10 +15,9 @@ public class MarketService {
 	private MarketRepository marketRepository;
 
 	public Market create(PreMarket preMarket) {
-		Market market = new Market().from(preMarket);
-		
 		String generatedPassword = new RandomValueStringGenerator(PASSWORD_LENGTH).generate();
-		market.setPassword(generatedPassword);
+		
+		Market market = new Market().from(preMarket, generatedPassword);
 		
 		return marketRepository.save(market);
 	}
