@@ -1,5 +1,7 @@
 package br.com.imarket.login;
 
+import static br.com.imarket.login.LoginType.BUYER;
+
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -45,9 +47,11 @@ public class BuyerLoginController {
 		Optional<LoginInfo> foundLoginInfo = loginInfoRepository.findByEmail(dto.getEmail());
 		if (foundLoginInfo.isPresent()) {
 			LoginInfo loginInfo = foundLoginInfo.get();
-			if (loginInfo.isSocial()) {
+			if (dto.getLoginOrigin().isSocial() && loginInfo.getLoginType() == BUYER) {
 				loginInfo.setEmail(dto.getEmail());
+				loginInfo.setLoginOrigin(dto.getLoginOrigin());
 				loginInfo.setPassword(dto.getPassword());
+				loginInfo.disablePasswordHash();
 				loginInfoRepository.save(loginInfo);
 				return;
 			}
@@ -55,6 +59,9 @@ public class BuyerLoginController {
 		}
 		
 		LoginInfo loginInfo = new LoginInfo(dto.getEmail(), dto.getPassword(), dto.getLoginOrigin(), LoginType.BUYER);
+		if (dto.getLoginOrigin().isSocial()) {
+			loginInfo.disablePasswordHash();
+		}
 		Buyer buyer = new Buyer(dto.getName(), loginInfo);
 		buyerRepository.save(buyer);
 	}
