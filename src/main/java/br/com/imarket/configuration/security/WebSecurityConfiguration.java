@@ -42,7 +42,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             	.antMatchers(OPTIONS,"/**").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/premarkets").permitAll()
+                .antMatchers("/premarkets/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

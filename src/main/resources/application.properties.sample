@@ -1,9 +1,11 @@
 env=dev
 
-spring.mvc.view.prefix=/templates/
-spring.mvc.view.suffix=.html
-spring.thymeleaf.cache=false
-spring.thymeleaf.mode=LEGACYHTML5
+spring.http.multipart.max-file-size=5MB
+spring.http.multipart.max-request-size=5MB
+
+security.user.name=imarket-login
+security.user.password=imarket-password
+security.cookie.name=authorization_cookie
 
 db.url=jdbc:mysql://localhost:3306/imarket
 db.username=root
@@ -11,3 +13,6 @@ db.password=
 db.driver=com.mysql.jdbc.Driver
 
 hibernate.show_sql=false
+
+cloud.auth.json.name=imarket-gcloud.json
+cloud.bucket.images=images.imarketbr.com

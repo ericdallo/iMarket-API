@@ -21,5 +21,6 @@ build/
 .DS_Store
 
 application.properties
+imarket-gcloud.json
 .sass-cache
 dist/
