@@ -15,9 +15,15 @@ class CloudConfiguration {
 	
 	@Value("${cloud.auth.json.name}")
 	private String gcloudJsonAuthName;
+	@Value("${env}")
+	private String env;
 	
 	@Bean
 	AuthCredentials authCredentials() throws IOException  {
+		if ("prod".equals(env)) {
+			return AuthCredentials.createApplicationDefaults();
+		}
+		
 		ClassLoader classLoader = getClass().getClassLoader();
 		return AuthCredentials.createForJson(classLoader.getResourceAsStream(gcloudJsonAuthName));
 	}
