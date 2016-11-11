@@ -32,7 +32,7 @@ public class BuyerLoginController {
 
 	@GetJson("/")
 	public String index() {
-		return "home";
+		return "API";
 	}
 	
 	@GetJson("/logged")
