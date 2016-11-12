@@ -5,7 +5,7 @@ ENV IMARKET_API_HOME /opt/imarket-api
 RUN mkdir -p /opt/app
 
 COPY . /opt/app
-WORKDIR $IMARKET_API_HOME
+WORKDIR /opt/app
 
 ENTRYPOINT /opt/app/docker/startup.sh
 
