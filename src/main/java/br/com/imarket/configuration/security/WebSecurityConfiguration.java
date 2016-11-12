@@ -41,7 +41,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         	.csrf().disable()
             .authorizeRequests()
             	.antMatchers(OPTIONS,"/**").permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers("/", "/favicon.ico").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/premarkets/**").permitAll()
                 .anyRequest().authenticated()
