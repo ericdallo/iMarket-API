@@ -35,8 +35,8 @@ configurations {
 
 dependencies {
     ext {
-        SPRING_BOOT_VERSION = "1.3.5.RELEASE"
-        SPRING_WEB_MVC_VERSION = "4.2.3.RELEASE"
+        SPRING_BOOT_VERSION = "1.4.1.RELEASE"
+        SPRING_WEB_MVC_VERSION = "4.3.3.RELEASE"
     }
 
     compile "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
@@ -51,6 +51,12 @@ dependencies {
     compile 'org.springframework.security.oauth:spring-security-oauth2:2.0.11.RELEASE'
     
     compile 'com.google.cloud:google-cloud:0.5.1'
+    
+    // Tests
+    compile 'org.springframework:spring-test'
+    compile 'junit:junit'
+    compile 'org.mockito:mockito-all:1.8.4'
+    compile 'org.hamcrest:hamcrest-all:1.3'
 }
 
 bootRun {

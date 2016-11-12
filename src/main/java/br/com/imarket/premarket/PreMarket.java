@@ -5,12 +5,16 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CNPJ;
+
+import br.com.imarket.market.picture.MarketPicture;
 
 @Entity
 @Table(name = "pre_market")
@@ -41,6 +45,13 @@ public class PreMarket {
 
 	@Column(name = "disapproved_text")
 	private String disapprovedText;
+	
+	@OneToOne
+	@JoinColumn(name = "market_picture_id", referencedColumnName = "id")
+	private MarketPicture picture;
+	
+	@Column(name = "approved", nullable = false)
+	private boolean approved;
 	
 	public Long getId() {
 		return id;
@@ -96,5 +107,21 @@ public class PreMarket {
 	
 	public String getDisapprovedText() {
 		return disapprovedText;
+	}
+	
+	public void setPicture(MarketPicture picture) {
+		this.picture = picture;
+	}
+	
+	public MarketPicture getPicture() {
+		return picture;
+	}
+	
+	public boolean isApproved() {
+		return approved;
+	}
+	
+	public void approves() {
+		this.approved = true;
 	}
 }

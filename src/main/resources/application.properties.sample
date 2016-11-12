@@ -1,7 +1,8 @@
 env=dev
 
-spring.http.multipart.max-file-size=5MB
-spring.http.multipart.max-request-size=5MB
+multipart.max-file-size=-1
+multipart.max-request-size=-1
+picture.upload.max.size=5_000_000
 
 security.user.name=imarket-login
 security.user.password=imarket-password

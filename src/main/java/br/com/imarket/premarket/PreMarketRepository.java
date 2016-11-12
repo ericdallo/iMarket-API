@@ -13,5 +13,7 @@ public interface PreMarketRepository {
 	List<PreMarket> findAll();
 
 	Optional<PreMarket> findById(Long id);
+
+	Optional<PreMarket> findByCnpj(String cnpj);
 	
 }
