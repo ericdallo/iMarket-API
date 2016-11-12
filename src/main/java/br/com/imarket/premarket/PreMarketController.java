@@ -24,7 +24,7 @@ import br.com.imarket.market.MarketService;
 public class PreMarketController {
 
 	@Value("${picture.upload.max.size}")
-	private Long maxSize;
+	private String maxSize;
 	
 	@Autowired
 	private PreMarketRepository preMarketRepository;
@@ -54,7 +54,7 @@ public class PreMarketController {
 	
 	@Post(value = "/premarkets/picture", consumes = "multipart/form-data")
 	public Long savePicture(@RequestParam("file") MultipartFile file) {
-		if (file.getSize() > maxSize) {
+		if (file.getSize() > Long.valueOf(maxSize)) {
 			throw new FileTooLargeException();
 		}
 		return pictureStorage.store(file).getId();
