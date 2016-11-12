@@ -8,4 +8,4 @@ cd $IMARKET_API_HOME
 ./gradlew build
 
 SPRING_CONFIG="--spring.config.location=file://$IMARKET_API_PROPERTIES"
-exec java -jar $IMARKET_API_HOME/build/libs/app.jar $SPRING_CONFIG
+exec java -jar $IMARKET_API_HOME/build/libs/imarket-api.jar $SPRING_CONFIG
