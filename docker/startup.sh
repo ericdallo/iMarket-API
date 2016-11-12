@@ -1,10 +1,11 @@
 #!/bin/bash
 set -ve
 
+git clone git@github.com:imarketbr/iMarket-API.git $IMARKET_API_HOME
 IMARKET_API_PROPERTIES=/opt/application.properties
 
 cd $IMARKET_API_HOME
+./gradlew build
 
 SPRING_CONFIG="--spring.config.location=file://$IMARKET_API_PROPERTIES"
-
-exec java -jar build/libs/app.jar $SPRING_CONFIG
+exec java -jar $IMARKET_API_HOME/build/libs/app.jar $SPRING_CONFIG
