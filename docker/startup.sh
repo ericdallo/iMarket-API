@@ -1,7 +1,7 @@
 #!/bin/bash
 set -ve
 
-git clone git@github.com:imarketbr/iMarket-API.git $IMARKET_API_HOME
+git clone https://github.com/iMarketbr/iMarket-API.git $IMARKET_API_HOME
 IMARKET_API_PROPERTIES=/opt/application.properties
 
 cd $IMARKET_API_HOME
