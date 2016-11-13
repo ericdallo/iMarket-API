@@ -40,7 +40,7 @@ class CloudConfiguration {
 	
 	@Bean
 	PubSub pubSub(AuthCredentials authCredentials) {
-		return PubSubOptions.newBuilder()
+		return PubSubOptions.builder()
 							.setAuthCredentials(authCredentials)
 							.build()
 							.getService();
