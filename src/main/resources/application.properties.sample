@@ -4,8 +4,8 @@ multipart.max-file-size=-1
 multipart.max-request-size=-1
 picture.upload.max.size=5000000
 
-security.user.name=imarket-login
-security.user.password=imarket-password
+admin.username=imarket-login
+admin.password=imarket-password
 security.cookie.name=authorization_cookie
 
 db.url=jdbc:mysql://localhost:3306/imarket
