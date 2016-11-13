@@ -1,6 +1,8 @@
 package br.com.imarket.configuration.security;
 
+import static org.springframework.http.HttpMethod.DELETE;
 import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.http.HttpMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,7 +45,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             	.antMatchers(OPTIONS,"/**").permitAll()
                 .antMatchers("/", "/favicon.ico").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/premarkets/**").permitAll()
+                .antMatchers(POST, AllowedEndpoint.listBy(POST)).permitAll()
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -53,7 +55,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	            .failureHandler(failureLogin)
 	            .permitAll()
 	            .and()
-            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/login", "DELETE"))
+            .logout().logoutRequestMatcher(new AntPathRequestMatcher("/login", DELETE.name()))
             	.clearAuthentication(true)
                 .deleteCookies(cookieName)
                 .invalidateHttpSession(true)

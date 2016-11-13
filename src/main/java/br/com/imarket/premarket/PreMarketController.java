@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import br.com.imarket.configuration.security.Admin;
 import br.com.imarket.exception.FileTooLargeException;
 import br.com.imarket.exception.MarketAlreadyExistsException;
 import br.com.imarket.exception.MarketWaitingApprovalException;
@@ -60,12 +61,14 @@ public class PreMarketController {
 		return pictureStorage.store(file).getId();
 	}
 	
-	@GetJson("/api/premarkets")
+	@Admin
+	@GetJson("/premarkets")
 	public List<PreMarket> list() {
 		return preMarketRepository.findAll();
 	}
 	
-	@PostJson("/api/premarkets/{id}")
+	@Admin
+	@PostJson("/premarkets/{id}")
 	public Market createMarket(@Valid @RequestBody PreMarketChange preMarketChange) {
 		PreMarket preMarket = preMarketRepository.findById(preMarketChange.getId()).orElseThrow(PreMarketNotFoundException::new);
 		
