@@ -1,5 +1,6 @@
 package br.com.imarket.premarket;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.composed.web.Post;
 import org.springframework.composed.web.rest.json.GetJson;
 import org.springframework.composed.web.rest.json.PostJson;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,6 @@ import br.com.imarket.exception.FileTooLargeException;
 import br.com.imarket.exception.MarketAlreadyExistsException;
 import br.com.imarket.exception.MarketWaitingApprovalException;
 import br.com.imarket.market.Market;
-import br.com.imarket.market.MarketService;
 
 @RestController
 public class PreMarketController {
@@ -30,15 +31,13 @@ public class PreMarketController {
 	@Autowired
 	private PreMarketRepository preMarketRepository;
 	@Autowired
-	private MarketService marketService;
-	@Autowired
 	private PictureStorage pictureStorage;
 	@Autowired
 	private PreMarketManager preMarketManager;
 
 	@PostJson("/premarkets")
 	public void create(@Valid @RequestBody PreMarketDTO dto) {
-		preMarketManager.create(dto, new PreMarketCallback() {
+		preMarketManager.create(dto, new PreMarketCreateCallback() {
 
 			@Override
 			public void alreadyExists() {
@@ -69,18 +68,20 @@ public class PreMarketController {
 	
 	@Admin
 	@PostJson("/premarkets/{id}")
-	public Market createMarket(@Valid @RequestBody PreMarketChange preMarketChange) {
-		PreMarket preMarket = preMarketRepository.findById(preMarketChange.getId()).orElseThrow(PreMarketNotFoundException::new);
-		
-		if (preMarketChange.isApproved()) {
-			Market market = marketService.create(preMarket);
-			return market;
-		}
-		
-		preMarket.disapproves(preMarketChange.getDisapprovedText());
-		preMarketRepository.save(preMarket);
-		
-		return null;
+	public ResponseEntity<?> createMarket(@Valid @RequestBody PreMarketChange preMarketChange) {
+		return preMarketManager.change(preMarketChange, new PreMarketChangeCallback() {
+
+			@Override
+			public ResponseEntity<?> success(Market market) {
+				return ResponseEntity.created(URI.create("/")).body(market);
+			}
+
+			@Override
+			public ResponseEntity<?> disapproved(PreMarket preMarket) {
+				return ResponseEntity.ok().build();
+			}
+			
+		});
 	}
 	
 }

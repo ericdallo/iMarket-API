@@ -1,6 +1,6 @@
 package br.com.imarket.premarket;
 
-interface PreMarketCallback {
+interface PreMarketCreateCallback {
 
 	void alreadyExists();
 

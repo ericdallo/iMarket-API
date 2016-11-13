@@ -1,5 +1,7 @@
 package br.com.imarket.premarket;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -14,6 +16,9 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import br.com.imarket.configuration.json.LocalDateSerializer;
 import br.com.imarket.market.picture.MarketPicture;
 
 @Entity
@@ -52,6 +57,10 @@ public class PreMarket {
 	
 	@Column(name = "approved", nullable = false)
 	private boolean approved;
+	
+	@Column(name = "change_date")
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private LocalDate changeDate;
 	
 	public Long getId() {
 		return id;
@@ -93,7 +102,7 @@ public class PreMarket {
 		this.address = address;
 	}
 
-	public boolean isHasDelivery() {
+	public boolean hasDelivery() {
 		return hasDelivery;
 	}
 
@@ -103,6 +112,7 @@ public class PreMarket {
 
 	public void disapproves(String disapprovedText) {
 		this.disapprovedText = disapprovedText;
+		changeDate = LocalDate.now();
 	}
 	
 	public String getDisapprovedText() {
@@ -123,5 +133,15 @@ public class PreMarket {
 	
 	public void approves() {
 		this.approved = true;
+		changeDate = LocalDate.now();
 	}
+
+	public LocalDate getChangeDate() {
+		return changeDate;
+	}
+
+	public void setChangeDate(LocalDate changeDate) {
+		this.changeDate = changeDate;
+	}
+	
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import br.com.imarket.premarket.PreMarket;
 
 @Service
-public class MarketService {
+public class MarketCreateService {
 
 	private static final int PASSWORD_LENGTH = 8;
 	

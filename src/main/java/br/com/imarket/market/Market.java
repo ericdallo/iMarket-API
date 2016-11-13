@@ -91,7 +91,7 @@ public class Market {
 		this.loginInfo.disablePasswordHash();
 		this.name = preMarket.getName();
 		this.cnpj = preMarket.getCnpj();
-		this.hasDelivery = preMarket.isHasDelivery();
+		this.hasDelivery = preMarket.hasDelivery();
 		this.address = preMarket.getAddress();
 		return this;
 	}
