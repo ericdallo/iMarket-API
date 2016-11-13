@@ -51,6 +51,7 @@ dependencies {
     compile 'org.springframework.security.oauth:spring-security-oauth2:2.0.11.RELEASE'
     
     compile 'com.google.cloud:google-cloud:0.5.1'
+    compile 'com.google.cloud:google-cloud-pubsub:0.4.0'
     
     // Tests
     compile 'org.springframework:spring-test'

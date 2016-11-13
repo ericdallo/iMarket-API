@@ -17,3 +17,5 @@ hibernate.show_sql=false
 
 cloud.auth.json.name=imarket-gcloud.json
 cloud.bucket.images=images.imarketbr.com
+
+cloud.pubsub.market.created=market-created

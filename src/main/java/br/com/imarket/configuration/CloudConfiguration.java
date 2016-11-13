@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.google.cloud.AuthCredentials;
+import com.google.cloud.pubsub.PubSub;
+import com.google.cloud.pubsub.PubSubOptions;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
@@ -34,5 +36,13 @@ class CloudConfiguration {
 							 .setAuthCredentials(authCredentials)
 							 .build()
 							 .getService();
+	}
+	
+	@Bean
+	PubSub pubSub(AuthCredentials authCredentials) {
+		return PubSubOptions.newBuilder()
+							.setAuthCredentials(authCredentials)
+							.build()
+							.getService();
 	}
 }

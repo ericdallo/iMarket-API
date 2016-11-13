@@ -16,9 +16,9 @@ public class PreMarketManager {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(PreMarketManager.class);
 	
-	private PreMarketDTOToPreMarketConverter converter;
-	private PreMarketRepository preMarketRepository;
-	private MarketCreateService marketCreateService;
+	private final PreMarketDTOToPreMarketConverter converter;
+	private final PreMarketRepository preMarketRepository;
+	private final MarketCreateService marketCreateService;
 
 	@Autowired
 	PreMarketManager(PreMarketDTOToPreMarketConverter converter, PreMarketRepository preMarketRepository, MarketCreateService marketCreateService) {
