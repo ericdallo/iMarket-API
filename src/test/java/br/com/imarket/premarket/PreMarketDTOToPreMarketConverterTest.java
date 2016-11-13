@@ -34,7 +34,7 @@ public class PreMarketDTOToPreMarketConverterTest {
 		assertEquals(address, converted.getAddress());
 		assertEquals(cnpj, converted.getCnpj());
 		assertEquals(email, converted.getEmail());
-		assertEquals(hasDelivery, converted.hasDelivery());
+		assertEquals(hasDelivery, converted.isHasDelivery());
 		assertEquals(name, converted.getName());
 		assertEquals(picture, converted.getPicture());
 	}

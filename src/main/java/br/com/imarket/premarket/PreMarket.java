@@ -102,7 +102,7 @@ public class PreMarket {
 		this.address = address;
 	}
 
-	public boolean hasDelivery() {
+	public boolean isHasDelivery() {
 		return hasDelivery;
 	}
 
