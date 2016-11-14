@@ -35,7 +35,7 @@ configurations {
 
 dependencies {
     ext {
-        SPRING_BOOT_VERSION = "1.4.1.RELEASE"
+        SPRING_BOOT_VERSION = "1.4.2.RELEASE"
         SPRING_WEB_MVC_VERSION = "4.3.3.RELEASE"
         GCLOUD_VERSION = "0.5.1"
     }

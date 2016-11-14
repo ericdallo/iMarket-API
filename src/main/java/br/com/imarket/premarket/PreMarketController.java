@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.composed.web.Post;
 import org.springframework.composed.web.rest.json.GetJson;
 import org.springframework.composed.web.rest.json.PostJson;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +21,6 @@ import br.com.imarket.exception.FileTooLargeException;
 import br.com.imarket.exception.MarketAlreadyExistsException;
 import br.com.imarket.exception.MarketWaitingApprovalException;
 import br.com.imarket.market.Market;
-import br.com.imarket.market.MarketCreatedEvent;
 
 @RestController
 public class PreMarketController {
@@ -36,8 +34,6 @@ public class PreMarketController {
 	private PictureStorage pictureStorage;
 	@Autowired
 	private PreMarketManager preMarketManager;
-	@Autowired
-	private ApplicationEventPublisher eventPublisher;
 
 	@PostJson("/premarkets")
 	public void create(@Valid @RequestBody PreMarketDTO dto) {
@@ -86,24 +82,5 @@ public class PreMarketController {
 			}
 			
 		});
-	}
-	
-	@Admin
-	@PostJson("/premarkets/test")
-	public void test() {
-		Market market = new Market();
-		market.setName("Teste");
-		MarketAddress address = new MarketAddress();
-		address.setAddress("Rua teste");
-		address.setCep("07031-070");
-		address.setCity("Sao Paulo");
-		address.setState("SP");
-		address.setNeighborhood("Bairro Teste");
-		market.setAddress(address);
-		market.setCnpj("0101929-0120/123");
-		market.setDelivery(true);
-		market.setId(123L);
-		
-		eventPublisher.publishEvent(new MarketCreatedEvent(market));
 	}
 }
