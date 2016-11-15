@@ -3,7 +3,6 @@ package br.com.imarket.market;
 import static br.com.imarket.login.LoginOrigin.IMARKET;
 import static br.com.imarket.login.LoginType.MARKET;
 import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -32,7 +31,7 @@ public class Market {
 	@Column(name = "name", nullable = false, length = 80)
 	private String name;
 	
-	@OneToOne(cascade = ALL, fetch = EAGER)
+	@OneToOne(cascade = ALL)
 	@JoinColumn(name = "login_info_id", referencedColumnName = "id")
 	private LoginInfo loginInfo;
 	
@@ -61,6 +60,10 @@ public class Market {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public LoginInfo getLoginInfo() {
+		return loginInfo;
 	}
 
 	public String getCnpj() {

@@ -30,6 +30,7 @@ class PubSubMarketCreatedListener {
 		Market market = event.getMarket();
 		try {
 			String marketJson = jacksonObjectMapper.writeValueAsString(market);
+			LOGGER.debug("serialized market: {}", marketJson);
 			
 			topics.marketCreated()
 				  .publishAsync(of(marketJson));
