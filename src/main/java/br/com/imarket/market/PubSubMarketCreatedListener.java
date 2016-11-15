@@ -15,9 +15,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.imarket.cloud.Topics;
 
 @Component
-class MarketCreatedListener {
+class PubSubMarketCreatedListener {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(MarketCreatedListener.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(PubSubMarketCreatedListener.class);
 	
 	@Autowired
 	private Topics topics;
