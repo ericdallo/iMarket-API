@@ -33,7 +33,7 @@ public class PictureStorage {
 	public MarketPicture store(MultipartFile multipartFile) {
 		MarketPicture savedMarketPicture = marketPictureRepository.save(new MarketPicture(multipartFile.getOriginalFilename()));
 		
-		String path = format("%s/market/pictures/%s/", env, savedMarketPicture.getId());
+		String path = format("market/pictures/%s/%s/", env, savedMarketPicture.getId());
 		try {
 			storageService.upload(imagesBucket, path, multipartFile);
 		} catch (IOException e) {
