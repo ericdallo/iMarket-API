@@ -1,7 +1,5 @@
 package br.com.imarket.login;
 
-import static br.com.imarket.login.LoginType.BUYER;
-
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -9,6 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.composed.web.rest.json.GetJson;
 import org.springframework.composed.web.rest.json.PostJson;
+import org.springframework.security.authentication.RememberMeAuthenticationProvider;
+import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +31,9 @@ public class BuyerLoginController {
 	private BuyerToBuyerLoginDTOConverter loginConverter;
 	@Autowired
 	private LoginInfoRepository loginInfoRepository;
-
+	@Autowired
+	private RememberMeAuthenticationProvider rememberMeProvider;
+	
 	@GetJson("/")
 	public String index() {
 		return "API";
@@ -43,26 +47,33 @@ public class BuyerLoginController {
 	}
 	
 	@PostJson("/register")
-	public void register(@Valid @RequestBody BuyerRegisterDTO dto) {
+	public BuyerLoginDTO register(@Valid @RequestBody BuyerRegisterDTO dto) {
 		Optional<LoginInfo> foundLoginInfo = loginInfoRepository.findByEmail(dto.getEmail());
 		if (foundLoginInfo.isPresent()) {
 			LoginInfo loginInfo = foundLoginInfo.get();
-			if (dto.getLoginOrigin().isSocial() && loginInfo.getLoginType() == BUYER) {
+			if (dto.getLoginOrigin().isSocial()) {
 				loginInfo.setEmail(dto.getEmail());
 				loginInfo.setLoginOrigin(dto.getLoginOrigin());
 				loginInfo.setPassword(dto.getPassword());
-				loginInfo.disablePasswordHash();
 				loginInfoRepository.save(loginInfo);
-				return;
+				return loginIntoSecurity(loginInfo);
+			} else {
+				throw new EmailAlreadyInUseException();
 			}
-			throw new EmailAlreadyInUseException();
 		}
 		
 		LoginInfo loginInfo = new LoginInfo(dto.getEmail(), dto.getPassword(), dto.getLoginOrigin(), LoginType.BUYER);
-		if (dto.getLoginOrigin().isSocial()) {
-			loginInfo.disablePasswordHash();
-		}
 		Buyer buyer = new Buyer(dto.getName(), loginInfo);
 		buyerRepository.save(buyer);
+		
+		return loginIntoSecurity(loginInfo);
+	}
+	
+	private BuyerLoginDTO loginIntoSecurity(LoginInfo loginInfo) {
+		RememberMeAuthenticationToken token = new RememberMeAuthenticationToken(rememberMeProvider.getKey(), loginInfo, loginInfo.getAuthorities());
+		Authentication authenticatedUser = rememberMeProvider.authenticate(token);
+		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+		
+        return loginConverter.convert(loggedUser.getBuyer().get());
 	}
 }

@@ -4,6 +4,7 @@ public class BuyerLoginDTO {
 
 	private String name;
 	private String email;
+	private LoginType loginType;
 	
 	public String getName() {
 		return name;
@@ -19,6 +20,14 @@ public class BuyerLoginDTO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public LoginType getLoginType() {
+		return loginType;
+	}
+
+	public void setLoginType(LoginType loginType) {
+		this.loginType = loginType;
 	}
 
 }

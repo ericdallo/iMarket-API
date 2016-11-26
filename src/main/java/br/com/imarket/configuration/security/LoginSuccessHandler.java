@@ -1,6 +1,7 @@
 package br.com.imarket.configuration.security;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,26 +37,25 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     	
     	ObjectMapper objMapper = new ObjectMapper();
     	
-    	if (isMobile) {
-    		if (loggedUser.isBuyer()) {
-        		String jsonString = objMapper.writeValueAsString(buyerLoginConverter.convert(loggedUser.getBuyer().get()));
-        		httpServletResponse.getWriter().write(jsonString);
-        		httpServletResponse.getWriter().flush();
-        		httpServletResponse.getWriter().close();
-        	} else {
-        		httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
-        		return;
-        	}
-    	} else if (loggedUser.isBuyer()) {
-    		String jsonString = objMapper.writeValueAsString(buyerLoginConverter.convert(loggedUser.getBuyer().get()));
-    		httpServletResponse.getWriter().write(jsonString);
-    		httpServletResponse.getWriter().flush();
-    		httpServletResponse.getWriter().close();
-    	} else if (loggedUser.isMarket()) {
-    		String jsonString = objMapper.writeValueAsString(marketLoginConverter.convert(loggedUser.getMarket().get()));
-    		httpServletResponse.getWriter().write(jsonString);
-    		httpServletResponse.getWriter().flush();
-    		httpServletResponse.getWriter().close();
+    	try (PrintWriter writer = httpServletResponse.getWriter()) {    		
+    		if (isMobile) {
+    			if (loggedUser.isBuyer()) {
+    				String jsonString = objMapper.writeValueAsString(buyerLoginConverter.convert(loggedUser.getBuyer().get()));
+    				writer.write(jsonString);
+    				writer.flush();
+    			} else {
+    				httpServletResponse.setStatus(HttpServletResponse.SC_NOT_ACCEPTABLE);
+    				return;
+    			}
+    		} else if (loggedUser.isBuyer()) {
+    			String jsonString = objMapper.writeValueAsString(buyerLoginConverter.convert(loggedUser.getBuyer().get()));
+    			writer.write(jsonString);
+    			writer.flush();
+    		} else if (loggedUser.isMarket()) {
+    			String jsonString = objMapper.writeValueAsString(marketLoginConverter.convert(loggedUser.getMarket().get()));
+    			writer.write(jsonString);
+    			writer.flush();
+    		}
     	}
     	
     	httpServletResponse.setStatus(HttpServletResponse.SC_OK);

@@ -13,6 +13,7 @@ public class BuyerToBuyerLoginDTOConverter implements Converter<Buyer, BuyerLogi
 		BuyerLoginDTO to = new BuyerLoginDTO();
 		to.setName(from.getName());
 		to.setEmail(from.getEmail());
+		to.setLoginType(from.getLoginInfo().getLoginType());
 		return to;
 	}
 
