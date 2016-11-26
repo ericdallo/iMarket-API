@@ -27,8 +27,6 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	@Autowired 
 	private UserDetailsDAO userDetailsService;
-	@Autowired 
-	private RememberMeAuthenticationProvider rememberMeAuthenticationProvider;
 	@Autowired
 	private LoginFailureHandler failureLogin;
 	@Autowired
@@ -74,7 +72,7 @@ class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
-		auth.authenticationProvider(rememberMeAuthenticationProvider);
+		auth.authenticationProvider(rememberMeAuthenticationProvider());
 	}
 
 	@Bean

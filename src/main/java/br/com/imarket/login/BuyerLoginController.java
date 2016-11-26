@@ -32,7 +32,7 @@ public class BuyerLoginController {
 	@Autowired
 	private LoginInfoRepository loginInfoRepository;
 	@Autowired
-	private RememberMeAuthenticationProvider rememberMeProvider;
+	private RememberMeAuthenticationProvider rememberMeAuthenticationProvider;
 	
 	@GetJson("/")
 	public String index() {
@@ -70,8 +70,8 @@ public class BuyerLoginController {
 	}
 	
 	private BuyerLoginDTO loginIntoSecurity(LoginInfo loginInfo) {
-		RememberMeAuthenticationToken token = new RememberMeAuthenticationToken(rememberMeProvider.getKey(), loginInfo, loginInfo.getAuthorities());
-		Authentication authenticatedUser = rememberMeProvider.authenticate(token);
+		RememberMeAuthenticationToken token = new RememberMeAuthenticationToken(rememberMeAuthenticationProvider.getKey(), loginInfo, loginInfo.getAuthorities());
+		Authentication authenticatedUser = rememberMeAuthenticationProvider.authenticate(token);
 		SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
 		
         return loginConverter.convert(loggedUser.getBuyer().get());
