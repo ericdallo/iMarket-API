@@ -27,17 +27,16 @@ class PubSubMarketCreatedListener {
 	@Async
 	@EventListener
 	public void sendEmail(MarketCreatedEvent event) {
-		Market market = event.getMarket();
 		try {
-			String marketJson = jacksonObjectMapper.writeValueAsString(market);
+			String marketJson = jacksonObjectMapper.writeValueAsString(event);
 			LOGGER.debug("serialized market: {}", marketJson);
 			
 			topics.marketCreated()
 				  .publishAsync(of(marketJson));
 		} catch (JsonParseException je) {
-			LOGGER.error("Could not deserialize market with id {}", market.getId());
+			LOGGER.error("Could not deserialize market with id {}", event.getMarket().getId());
 		} catch (Exception e) {
-			LOGGER.error("Could not publish event for {} with id {}", MarketCreatedEvent.class.getSimpleName(), market.getId());
+			LOGGER.error("Could not publish event for {} with id {}", MarketCreatedEvent.class.getSimpleName(), event.getMarket().getId());
 		}
 	}
 }

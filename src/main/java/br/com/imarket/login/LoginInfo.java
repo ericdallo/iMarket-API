@@ -138,7 +138,7 @@ public class LoginInfo implements UserDetails {
 	public void disablePasswordHash() {
 		this.shouldHash = false;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -163,6 +163,4 @@ public class LoginInfo implements UserDetails {
 			return false;
 		return true;
 	}
-
-	
 }
