@@ -9,6 +9,7 @@ public enum AllowedEndpoint {
 	
 	CREATE_PREMARKET(POST, "/premarkets"),
 	CREATE_PREMARKET_PICTURE(POST, "/premarkets/picture"),
+	CHANGE_PASSWORD(POST, "/change-password"),
 	;
 
 	private final HttpMethod method;
