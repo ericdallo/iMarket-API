@@ -27,6 +27,9 @@ public class Buyer {
 	@JoinColumn(name = "login_info_id", referencedColumnName = "id")
 	private LoginInfo loginInfo;
 	
+	@Column(name = "opt_in", nullable = false)
+	private boolean optIn;
+	
 	@Deprecated
 	Buyer() {} //Hibernate eyes only
 	
@@ -61,6 +64,14 @@ public class Buyer {
 
 	public String getEmail() {
 		return loginInfo.getEmail();
+	}
+
+	public boolean isOptIn() {
+		return optIn;
+	}
+	
+	public void setOptIn(boolean optIn) {
+		this.optIn = optIn;
 	}
 	
 }

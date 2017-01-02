@@ -24,6 +24,9 @@ public class BuyerRegisterDTO {
 	@NotNull(message = "buyer.login.empty.origin")
 	@JsonProperty("login_origin")
 	private LoginOrigin loginOrigin;
+	
+	@JsonProperty("opt_in")
+	private boolean optIn;
 
 	public String getName() {
 		return name;
@@ -55,5 +58,13 @@ public class BuyerRegisterDTO {
 
 	public void setLoginOrigin(LoginOrigin loginOrigin) {
 		this.loginOrigin = loginOrigin;
+	}
+	
+	public boolean isOptIn() {
+		return optIn;
+	}
+	
+	public void setOptIn(boolean optIn) {
+		this.optIn = optIn;
 	}
 }

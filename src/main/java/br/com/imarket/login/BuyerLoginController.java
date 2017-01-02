@@ -64,6 +64,7 @@ public class BuyerLoginController {
 		
 		LoginInfo loginInfo = new LoginInfo(dto.getEmail(), dto.getPassword(), dto.getLoginOrigin(), LoginType.BUYER);
 		Buyer buyer = new Buyer(dto.getName(), loginInfo);
+		buyer.setOptIn(dto.isOptIn());
 		buyerRepository.save(buyer);
 		
 		return loginIntoSecurity(loginInfo);
