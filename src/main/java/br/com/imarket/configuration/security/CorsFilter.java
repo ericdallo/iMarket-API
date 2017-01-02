@@ -18,6 +18,7 @@ public class CorsFilter extends OncePerRequestFilter {
 		response.addHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
 		response.addHeader("Access-Control-Max-Age", "10");
+		response.addHeader("Access-Control-Allow-Methods", "*");
 
 		String reqHead = request.getHeader("Access-Control-Request-Headers");
 
